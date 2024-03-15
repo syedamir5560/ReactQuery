@@ -1,28 +1,39 @@
 import React, { useEffect, useState } from 'react'
 import Cards from './Cards'
+import { useQuery } from '@tanstack/react-query'
+import { fetchproducts } from './httpcodes'
 
 function Products() {
 
-    let [data, setData] = useState([])
-    let [isLoading, setIsLoading] = useState(false)
-    let [error, setError] = useState('')
+    // let [data, setData] = useState([])
+    // let [isLoading, setIsLoading] = useState(false)
+    // let [error, setError] = useState('')
 
-    useEffect(() => {
-        setError('')
-        setIsLoading(true)
-        fetch(`https://fakestoreapi.com/products`).then((response) => {
-            if (!response.ok) throw new error('Un available')
-            return response.json()
-        }).then((val) => {
-            setIsLoading(false)
-            setData(val)
-        }).catch((error) => {
-            setError(error.message)
-            setIsLoading(false)
+    // useEffect(() => {
+    //     setError('')
+    //     setIsLoading(true)
+    //     fetch(`https://fakestoreapi.com/products`).then((response) => {
+    //         if (!response.ok) throw new error('Un available')
+    //         return response.json()
+    //     }).then((val) => {
+    //         setIsLoading(false)
+    //         setData(val)
+    //     }).catch((error) => {
+    //         setError(error.message)
+    //         setIsLoading(false)
 
-        }).finally(() => setIsLoading(false))
+    //     }).finally(() => setIsLoading(false))
 
-    }, [])
+    // }, [])
+
+
+    let {data,isLoading,isError,error}=useQuery(
+        {
+                queryKey:['products'],
+            queryFn:fetchproducts,
+            staleTime:5000
+        }
+    )
 
     return (
       <>
