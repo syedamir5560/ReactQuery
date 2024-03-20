@@ -24,6 +24,7 @@ function NavbarTop() {
           <Nav className="me-auto">
             <NavLink to="/" style={myStyle}>PRODUCTS</NavLink>
             <NavLink to="/imagesearch" style={myStyle}>IMAGE SEARCH</NavLink>
+            <NavLink to="/sortproducts" style={myStyle}>SORT PRODUCTS</NavLink>
           </Nav>
         </Navbar.Collapse>
       </Container>
