@@ -7,28 +7,32 @@ import { NavLink } from 'react-router-dom';
 
 function NavbarTop() {
 
- let myStyle={
-    color:"blue",
-    fontSize:'20px',
-    marginLeft:'20px',
-    textDecoration:'none'
- }
+  let myStyle = {
+    color: "black",
+    fontSize: '19px',
+    marginLeft: '20px',
+    textDecoration: 'none',
+    fontWeight:'500',
+    
+  }
+
+
 
   return (
-    <div>
-         <Navbar expand="lg" className="bg-body-tertiary">
-      <Container>
-        <Navbar.Brand href="#home">LOGO</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <NavLink to="/" style={myStyle}>PRODUCTS</NavLink>
-            <NavLink to="/imagesearch" style={myStyle}>IMAGE SEARCH</NavLink>
-            <NavLink to="/sortproducts" style={myStyle}>SORT PRODUCTS</NavLink>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <div >
+      <Navbar expand="lg" className="bg-info   " >
+        <Container>
+          <Navbar.Brand href="#home">LOGO</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto text-sm-center mt-sm-2">
+              <NavLink to="/" style={myStyle} >PRODUCTS</NavLink>
+              <NavLink to="/imagesearch" style={myStyle} >IMAGE SEARCH</NavLink>
+              <NavLink to="/sortproducts" style={myStyle} >SORT PRODUCTS</NavLink>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
     </div>
   )
 }

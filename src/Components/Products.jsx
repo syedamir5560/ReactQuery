@@ -38,13 +38,13 @@ function Products() {
     return (
       <>
       <h1 className='text-center mt-2'>All Products</h1>
-        <div className='d-flex align-center justify-content-between flex-wrap p-4 mt-2'>
+        <div className='bg-warning container  mt-3 mycards border border-4 rounded-4 flex-wrap d-flex p-3 align-items-center justify-content-center'>
             
             {isLoading && <h1 className='text-center text-info'>Loading...</h1>}
             {
                 !data ? <h1>{error}</h1> :
                 data.map((ele=>
-                <Cards key={ele.id} ele={ele} />))
+                <Cards className='mx-3' key={ele.id} ele={ele} />))
             }
         </div>
       </>
