@@ -1,11 +1,21 @@
 import React, { useState } from 'react'
 import Card from 'react-bootstrap/Card';
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { useSearchParams } from 'react-router-dom';
+import debounce from 'lodash.debounce';
 
-function Sortproducts() {
+function SortProdPRD() {
 
-    let [limit] = useState('8')
-    let [skip, setSkip] = useState(0)
+    let [searchParam, setSearchParam] = useSearchParams({ skip: 0, limit: 6 })
+
+    console.log(searchParam)
+
+
+
+    let skip = parseInt(searchParam.get('skip') || 0)
+    let limit = parseInt(searchParam.get('limit') || 0)
+    let q = searchParam.get('q') || ''
+    let category = searchParam.get('category') || ''
 
     let { data: categories } = useQuery({
         queryKey: ['categories'],
@@ -15,27 +25,54 @@ function Sortproducts() {
     })
 
     let { data: products } = useQuery({
-        queryKey: ['products', limit, skip],
+        queryKey: ['products', limit, skip, q, category],
         queryFn: async () => {
-            let data = await fetch(`https://dummyjson.com/products?limit=${limit}&skip=${skip}`).then(res => res.json())
+
+            let url = `https://dummyjson.com/products/search?limit=${limit}&skip=${skip}&q=${q}`
+
+            if (category) {
+                url = `https://dummyjson.com/products/category/${category}?limit=${limit}&skip=${skip}&q=${q}`
+            }
+
+            let data = await fetch(url).then(res => res.json())
             return data.products
 
         },
-        placeholderData: keepPreviousData
+        placeholderData: keepPreviousData,
+        staleTime: 10000
 
     })
 
     let handleMove = (moveCount) => {
-        setSkip((prevSkip) => {
-            return Math.max(prevSkip + moveCount, 0)
+        setSearchParam((prev) => {
+            prev.set('skip', Math.max(skip + moveCount, 0))
+            return prev
         })
     }
 
 
     return (
         <div>
-            <input type="text" className="form-control w-50 my-3 ms-4 d-inline-block " placeholder='Enter Products' />
-            <select className='ms-5 form-select w-25 d-inline-block ' name="" id="">
+            <input type="text" className="form-control w-50 my-3 ms-4 d-inline-block " placeholder='Enter Products'
+                onChange={debounce((e) => {
+                    setSearchParam((prev) => {
+                        prev.set('q', e.target.value)
+                        prev.set('skip', 0)
+                        prev.delete('category')
+                        return prev
+                    })
+                }, 2000)}
+            />
+            <select
+                onChange={debounce((e) => {
+                    setSearchParam((prev) => {
+                        prev.set('category', e.target.value)
+                        prev.delete('q')
+                        prev.set('skip', 0)
+                        return prev
+                    })
+                })}
+                className='ms-5 form-select w-25 d-inline-block ' name="" id="">
                 <option>Select Category</option>
                 {
                     categories && categories.map(ele => {
@@ -47,7 +84,7 @@ function Sortproducts() {
             <div className="mycards border border-4 rounded-4 p-3 d-flex flex-wrap justify-content-center gap-3 bg-warning" style={style.mycards}>
                 {
                     products && products.map(ele => (
-                        <Card className='text-center bg-info border border-2 border-dark' style={{ width: '18rem' }}  >
+                        <Card key={ele.id} className='text-center bg-info border border-2 border-dark' style={{ width: '18rem' }}  >
                             <Card.Img style={style.images} variant="top" src={ele.images?.[0]} />
                             <Card.Body className='d-flex align-items-center justify-content-between flex-column'>
                                 <Card.Title> {ele.title}</Card.Title>
@@ -75,7 +112,7 @@ function Sortproducts() {
     )
 }
 
-export default Sortproducts
+export default SortProdPRD
 
 let style = {
     images: {

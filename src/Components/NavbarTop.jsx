@@ -29,6 +29,7 @@ function NavbarTop() {
               <NavLink to="/" style={myStyle} >PRODUCTS</NavLink>
               <NavLink to="/imagesearch" style={myStyle} >IMAGE SEARCH</NavLink>
               <NavLink to="/sortproducts" style={myStyle} >SORT PRODUCTS</NavLink>
+              <NavLink to="/sortprodprd" style={myStyle} >SORTPRODPRD</NavLink>
             </Nav>
           </Navbar.Collapse>
         </Container>
