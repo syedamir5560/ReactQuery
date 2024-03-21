@@ -6,7 +6,7 @@ import debounce from 'lodash.debounce';
 
 function SortProdPRD() {
 
-    let [searchParam, setSearchParam] = useSearchParams({ skip: 0, limit: 6 })
+    let [searchParam, setSearchParam] = useSearchParams({ skip: 0, limit: 4 })
 
     console.log(searchParam)
 
@@ -34,8 +34,8 @@ function SortProdPRD() {
                 url = `https://dummyjson.com/products/category/${category}?limit=${limit}&skip=${skip}&q=${q}`
             }
 
-            let data = await fetch(url).then(res => res.json())
-            return data.products
+            return await fetch(url).then(res => res.json())
+            
 
         },
         placeholderData: keepPreviousData,
@@ -83,7 +83,7 @@ function SortProdPRD() {
 
             <div className="mycards border border-4 rounded-4 p-3 d-flex flex-wrap justify-content-center gap-3 bg-warning" style={style.mycards}>
                 {
-                    products && products.map(ele => (
+                     products?.products && products?.products.map(ele => (
                         <Card key={ele.id} className='text-center bg-info border border-2 border-dark' style={{ width: '18rem' }}  >
                             <Card.Img style={style.images} variant="top" src={ele.images?.[0]} />
                             <Card.Body className='d-flex align-items-center justify-content-between flex-column'>
@@ -103,9 +103,12 @@ function SortProdPRD() {
             <div className="mybtns" style={style.mybtns}>
                 <button
                     onClick={() => handleMove(-limit)}
-                    className='btn btn-info ' style={{ width: '100px', fontWeight: '500' }}>PREV</button>
+                    className='btn btn-info ' style={{ width: '100px', fontWeight: '500' }}
+                    disabled={skip < limit}
+                    >PREV</button>
                 <button
                     onClick={() => handleMove(+limit)}
+                disabled={limit+skip >= products?.total }
                     className='btn btn-info' style={{ width: '100px', fontWeight: '500' }}>Next</button>
             </div>
         </div>

@@ -46,7 +46,7 @@ function Sortproducts() {
 
             <div className="mycards border border-4 rounded-4 p-3 d-flex flex-wrap justify-content-center gap-3 bg-warning" style={style.mycards}>
                 {
-                    products && products.map(ele => (
+                    products.map(ele => (
                         <Card className='text-center bg-info border border-2 border-dark' style={{ width: '18rem' }}  >
                             <Card.Img style={style.images} variant="top" src={ele.images?.[0]} />
                             <Card.Body className='d-flex align-items-center justify-content-between flex-column'>
